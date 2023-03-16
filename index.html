@@ -35,12 +35,17 @@
     </style> -->
   </head>
   <body>
+    <header>
+      <div class="section__coming-soon__text--logo">
+        <img src="/images/logo.svg" alt="Logo" />
+      </div>
+    </header>
     <main>
       <section class="section__coming-soon">
         <div class="section__coming-soon__text">
-          <div class="section__coming-soon__text--logo">
+          <!-- <div class="section__coming-soon__text--logo">
             <img src="/images/logo.svg" alt="Logo" />
-          </div>
+          </div> -->
           <div class="section__coming-soon__text--title">
             <h1><span>We're</span> coming soon</h1>
             <p>
@@ -49,11 +54,7 @@
               and our launch deals.
             </p>
           </div>
-          <form
-            action="/"
-            method="GET"
-            class="section__coming-soon__text--form"
-          >
+          <form class="section__coming-soon__text--form" id="form">
             <input
               id="email"
               name="email"
@@ -61,24 +62,79 @@
               class="section__coming-soon__text--form--input"
               placeholder="Email Address"
             />
+            <label
+              class="section__coming-soon__text--form--label"
+              for="email"
+              id="label"
+              >Please provide a valid email</label
+            >
+            <img
+              class="error-icon"
+              src="/images/icon-error.svg"
+              alt="error icon"
+            />
             <button class="btn submit" type="submit">
               <img src="/images/icon-arrow.svg" alt="Arrow" />
             </button>
           </form>
         </div>
         <div class="section__coming-soon__img">
-          <img src="/images/hero-desktop.jpg" alt="Woman in apparel" />
+          <img
+            srcset="
+              /images/hero-mobile.jpg   500w,
+              /images/hero-desktop.jpg 1500w
+            "
+            sizes="(max-width: 600px) 480px,
+         800px"
+            src="/images/hero-mobile.jpg"
+            alt="Woman in apparel"
+          />
         </div>
       </section>
     </main>
 
-    <!-- <footer>
-      <p class="attribution">
-        Challenge by
-        <a href="https://www.frontendmentor.io?ref=challenge" target="_blank"
-          >Frontend Mentor</a
-        >. Coded by <a href="#">Your Name Here</a>.
-      </p>
-    </footer> -->
+    <script>
+      const form = document.getElementById("form");
+      const email = document.getElementById("email");
+      const label = document.getElementById("label");
+      const errorIcon = document.querySelector(".error-icon");
+
+      form.addEventListener("submit", (e) => {
+        e.preventDefault();
+
+        checkInputs();
+      });
+
+      function checkInputs() {
+        const emailValue = email.value.trim();
+
+        if (emailValue === "") {
+          email.classList.add("invalid");
+          label.style.opacity = "1";
+          label.innerText = "Please Enter Your Email";
+        } else if (!validEmail(email)) {
+          email.classList.add("invalid");
+          label.innerText = "Please Provide a Valid Email";
+          errorIcon.style.opacity = "1";
+          label.style.opacity = "1";
+        } else {
+          label.style.opacity = "0";
+          errorIcon.style.opacity = "0";
+          email.classList.remove("invalid");
+          email.value = "";
+        }
+      }
+
+      function validEmail(email) {
+        let emailChars =
+          /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
+
+        if (email.value.match(emailChars)) {
+          return true;
+        } else {
+          return false;
+        }
+      }
+    </script>
   </body>
 </html>
